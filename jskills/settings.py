@@ -138,3 +138,39 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 #
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s | %(message)s ',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s | '
+                      '%(filename)s.%(funcName)s:%(lineno)s %(message)s ',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'system': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s ',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'formatter': 'simple',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/access.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
