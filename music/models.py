@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 # Create your models here.
@@ -5,20 +7,28 @@ from django.db import models
 class Artist(models.Model):
 	full_name = models.CharField(max_length=200, unique=True)
 	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
-	last_updated_date = models.DateTimeField(auto_now_add=True, db_index=True)
+	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
 	last_updated_by = models.CharField(max_length=20)
 
 	class Meta:
 		db_table = '"artist"'
+		ordering = ['full_name']
+
+	def __str__(self):
+		return self.full_name
 
 class Genre(models.Model):
 	genre_name = models.CharField(max_length=200, unique=True)
 	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
-	last_updated_date = models.DateTimeField(auto_now_add=True, db_index=True)
+	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
 	last_updated_by = models.CharField(max_length=20)
 
 	class Meta:
 		db_table = '"genre"'
+		ordering = ['genre_name']
+
+	def __str__(self):
+		return self.genre_name
 
 class Song(models.Model):
 	song_name = models.CharField(max_length=250)
@@ -32,11 +42,15 @@ class Song(models.Model):
 	duration =  models.IntegerField(blank=True, null=True)
 	bit_rate = models.CharField(max_length=20, blank=True, null=True)	
 	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
-	last_updated_date = models.DateTimeField(auto_now_add=True, db_index=True)
+	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
 	last_updated_by = models.CharField(max_length=20)
 
 	class Meta:
 		db_table = '"song"'
+		ordering = ['song_name']
+
+	def __str__(self):
+		return self.song_name
 
 
 	
