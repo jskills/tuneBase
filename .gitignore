@@ -130,3 +130,6 @@ dmypy.json
 
 # config file for django settings.py
 /secrets.json
+
+#vim .swp files
+.swp
