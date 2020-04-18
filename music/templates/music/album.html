@@ -22,6 +22,11 @@
 		{% if album_name %}
 			| {{ album_name }}
 		{% endif %}
+		{% if cover_url %}
+			<p>
+			<img src="/media/cover_art/{{ cover_url }}">
+			<p>
+		{% endif %}
 		
 		<p>
 

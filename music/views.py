@@ -1,8 +1,13 @@
 from django.shortcuts import render
 from django.db import connection
 import re
+import os
 
 from .models import Genre, Artist, Song
+
+musicDir = "/media/jskills/Toshiba-2TB/"
+coverImageDir = musicDir + "cover_art/"
+
 
 def index(request):
 	return render(request, 'music/index.html')
@@ -19,8 +24,9 @@ def artistPage(request, artist_id):
 	aList = list()
 	for s in sList:
 		d = dict()
-		d['album'] = s[0]
-		d['album_url'] = re.sub(' ', '_', s[0])
+		d['album'] = str(s[0])
+		if d['album']:
+			d['album_url'] = re.sub(' ', '_', d['album'])
 		aList.append(d)
 
 	templateData = {
@@ -44,11 +50,19 @@ def albumPage(request, artist_id, album):
 	column_names = [col[0] for col in desc]
 	sList = [dict(zip(column_names, row)) for row in cur.fetchall()]
 
+	cover_url = None
+	for s in sList:
+		coverFile = coverImageDir + str(s['id']) + ".jpg"
+		if os.path.exists(coverFile) or True:
+			cover_url = str(s['id']) + ".jpg"
+			break
+
 	templateData = {
 		'song_list': sList,
 		'album_name': album_name,
 		'artist_id': artist_id,
-                'full_name': a.full_name
+                'full_name': a.full_name,
+		'cover_url': cover_url
 	}
 
 	return render(request, 'music/album.html', templateData)
