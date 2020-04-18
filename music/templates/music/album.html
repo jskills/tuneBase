@@ -17,17 +17,31 @@
 
 		<p>
 		{% if full_name %}
-			Artist : {{ full_name }}	
+			<a href="/music/artist/{{artist_id}}/">{{ full_name }}</a>
 		{% endif %}
+		{% if album_name %}
+			| {{ album_name }}
+		{% endif %}
+		
+		<p>
 
-		{% if album_list %}
-    			<ul>
-    			{% for a in album_list %}
-        			<li><a href="/music/album/{{ artist_id }}/{{ a.album_url }}/">{{ a.album }}</a></li>
+		{% if song_list %}
+			<table>
+    			{% for s in song_list %}
+				<tr>
+				<td>
+				<audio controls>
+					<source src="/media/{{ s.file_path }}" type="audio/mpeg">
+				</audio>
+				</td>
+				<td>
+				<a href="/music/song/{{ s.id }}/">{{ s.song_name }}</a>
+				</td>
+				</tr>
     			{% endfor %}
-    			</ul>
+    			</table>
 		{% else %}
-    			<p>No albums / songs available for this artist.</p>
+    			<p>No songs available for this artist / album.</p>
 		{% endif %}		
 
 		<!-- Footer -->
