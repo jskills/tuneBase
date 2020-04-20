@@ -3,7 +3,7 @@
 		<title>DJ McLovin Music Database</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<!-- <link rel="stylesheet" href="/static/music/assets/css/main.css" />-->
+		<link rel="stylesheet" href="/static/music/assets/css/main.css" />
 	</head>
 	<body>
 		<!-- Header -->
@@ -11,12 +11,9 @@
 				<h1><a href="/music/">DJ McLovin</a></h1>
 			</header>
 
-		{% if full_name %}
+		{% if artist_object %}
 			<br>
-			<a href="/music/artist/{{artist_id}}/">{{ full_name }}</a>
-		{% endif %}
-		{% if album_name %}
-			| {{ album_name }}
+			<a href="/music/artist/{{artist_object.id}}/">{{ full_name }}</a>
 		{% endif %}
 		{% if cover_url %}
 			<br>
@@ -26,23 +23,36 @@
 		
 		<p>
 
-		{% if song_list %}
-			<table>
-    			{% for s in song_list %}
-				<tr>
-				<td>
-				<audio controls>
-					<source src="/media/{{ s.file_path }}" type="audio/mpeg">
-				</audio>
-				</td>
-				<td>
-				<a href="/music/song/{{ s.id }}/">{{ s.song_name }}</a>
-				</td>
-				</tr>
-    			{% endfor %}
-    			</table>
+		{% if song_object %}
+			{% if artist_object %}
+				<a href="/music/artist/{{artist_object.id}}/">{{artist_object.full_name}}</a>
+				<br>
+			{% endif %}
+			<b>{{ song_object.song_name }}</b>
+			<br>
+			<audio controls>
+				<source src="/media/{{ song_object.file_path }}" type="audio/mpeg">
+			</audio>
+			<br>
+			{% if song_object.album %}
+				Album : {{ song_object.album }}
+				<br>
+			{% endif %}
+			{% if song_object.duration %}
+				Time : {{song_object.duration}}
+				<br>
+			{% endif %}
+			{% if song_object.year %}
+				Year: {{song_object.year}}
+				<br>
+			{% endif %}
+			{% if song_object.comment %}
+				Comments : {{song_object.comment}}
+				<br>
+			{% endif %}
+			
 		{% else %}
-    			<p>No songs available for this artist / album.</p>
+    			<p>No songs available for this artist / song ID.</p>
 		{% endif %}		
 
 		<!-- Footer -->

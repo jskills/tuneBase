@@ -3,14 +3,30 @@ from django.db import connection
 import re
 import os
 
+
+
+
 from .models import Genre, Artist, Song
 
 musicDir = "/media/jskills/Toshiba-2TB/"
 coverImageDir = musicDir + "cover_art/"
 
+###
+
+def returnCoverUrl(song_id):
+	cover_url = None
+	coverFile = coverImageDir + str(song_id) + ".jpg"
+	if os.path.exists(coverFile):
+		cover_url = str(song_id) + ".jpg"
+
+	return cover_url
+
+###
 
 def index(request):
 	return render(request, 'music/index.html')
+
+###
 
 
 def artistPage(request, artist_id):
@@ -37,6 +53,7 @@ def artistPage(request, artist_id):
 
 	return render(request, 'music/artist.html', templateData)
 
+###
 
 def albumPage(request, artist_id, album):
 	a = Artist.objects.get(id=artist_id)
@@ -52,9 +69,8 @@ def albumPage(request, artist_id, album):
 
 	cover_url = None
 	for s in sList:
-		coverFile = coverImageDir + str(s['id']) + ".jpg"
-		if os.path.exists(coverFile) or True:
-			cover_url = str(s['id']) + ".jpg"
+		cover_url = returnCoverUrl(s['id'])
+		if cover_url:
 			break
 
 	templateData = {
@@ -66,4 +82,21 @@ def albumPage(request, artist_id, album):
 	}
 
 	return render(request, 'music/album.html', templateData)
+
+###
+
+def songPage(request, song_id):
+	s = Song.objects.get(id=song_id)
+	a = Artist.objects.get(id=s.artist_id)
+
+	cover_url = returnCoverUrl(s.id)
+
+	templateData = {
+		'song_object' : s,
+		'artist_object' : a,
+		'cover_url': cover_url
+	}
+
+	return render(request, 'music/song.html', templateData)
+
 
