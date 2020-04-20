@@ -28,7 +28,7 @@ django-filter==2.2.0
 djangorestframework==3.11.0
 eyeD3==0.9.5
 filetype==1.0.6
-Flask==0.12.2
+Flask==1.0
 Flask-BabelEx==0.9.3
 Flask-Compress==1.4.0
 Flask-Gravatar==0.4.2
