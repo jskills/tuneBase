@@ -1,0 +1,37 @@
+<html>
+	<head>
+		<title>DJ McLovin Music Database</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/static/music/assets/css/main.css" />
+		<script type="text/javascript" src="/static/music/assets/js/jquery.min.js"></script>
+		<script type="text/javascript" src="/static/music/assets/js/jquery.jplayer.min.js"></script>
+		<script type="text/javascript" src="/static/music/assets/js/jplayer.playlist.min.js"></script>
+		<script type="text/javascript" src="/static/music/assets/js/jquery.jplayer.inspector.min.js"></script>
+		<link type="text/css" href="/static/music/skin/pink.flag/css/jplayer.pink.flag.css" rel="stylesheet" />
+		{% include "./player.js" with playlist_songs=playlist_songs %}
+	</head>
+	<body class="is-preload">
+		<p>
+
+		<!-- Header -->
+			<header id="header">
+				<h1><a href="/music/">DJ McLovin</a></h1>
+			</header>
+
+		<p>
+
+		<p>
+		{% if playlist_title %}
+			{{ playlist_title }}	
+		{% endif %}
+
+		{% include "./player.html" %}
+
+		{% include "./footer.html" %}
+
+		<!-- Scripts -->
+			<!-- <script src="/static/music/assets/js/main.js"></script> -->
+
+	</body>
+</html>

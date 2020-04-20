@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.db import connection
+import m3u8
 import re
 import os
-
-
 
 
 from .models import Genre, Artist, Song
@@ -20,6 +19,15 @@ def returnCoverUrl(song_id):
 		cover_url = str(song_id) + ".jpg"
 
 	return cover_url
+
+###
+
+def getPlaylistSongs(filename):
+	read_file = musicDir + filename + ".m3u"
+
+	m3u8_obj = m3u8.load(read_file)
+
+	return m3u8_obj.files
 
 ###
 
@@ -99,4 +107,36 @@ def songPage(request, song_id):
 
 	return render(request, 'music/song.html', templateData)
 
+###
 
+def playlistPage(request, playlist_file):
+
+	playlist_title = re.sub('_', ' ', playlist_file)
+
+	file_path = playlist_file + ".m3u"
+	playlist_files = getPlaylistSongs(playlist_file)
+
+	playlist_songs = list()
+
+
+	for file_path in playlist_files:
+		file_path = re.sub('\\\\', '/', file_path)
+		cur = connection.cursor()
+		sql = "select s.id as song_id, full_name, song_name, file_path from song s, artist a"
+		sql += " where file_path = %s and s.artist_id = a.id"
+		cur.execute(sql, [file_path])
+		desc = cur.description
+		column_names = [col[0] for col in desc]
+		sList = [dict(zip(column_names, row)) for row in cur.fetchall()]
+		for sl in sList:
+			sl['cover_url'] = returnCoverUrl(sl['song_id'])
+			playlist_songs.append(sl)
+
+	templateData = {
+		'playlist_title': playlist_title,
+		'playlist_songs': playlist_songs
+	}
+
+	return render(request, 'music/playlist.html', templateData)
+
+###

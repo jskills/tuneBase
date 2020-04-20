@@ -64,6 +64,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'jskills.urls'
 
+# 'DIRS': [os.path.join(BASE_DIR, 'templates/music/templates/')],
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
