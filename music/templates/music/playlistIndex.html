@@ -15,22 +15,15 @@
 
 		<p>
 
-		{% if full_name %}
-			<header>
-			<h2>
-			Artist : {{ full_name }}	
-			</h2>
-			</header>
-		{% endif %}
-
-		{% if album_list %}
+		{% if playlists %}
     			<ul>
-    			{% for a in album_list %}
-        			<li><a href="/music/album/{{ artist_id }}/{{ a.album_url }}/">{{ a.album }}</a></li>
+    			{% for p in playlists %}
+        			<li><a href="/music/mixtape/{{ p.url }}">{{ p.name }}</a></li>
+				<p>
     			{% endfor %}
     			</ul>
 		{% else %}
-    			<p>No albums / songs available for this artist.</p>
+			No playlists found.
 		{% endif %}		
 
                 </section>

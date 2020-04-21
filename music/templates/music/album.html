@@ -3,21 +3,28 @@
 		<title>DJ McLovin Music Database</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<!-- <link rel="stylesheet" href="/static/music/assets/css/main.css" />-->
+		{% include "./header.html" %}
 	</head>
 	<body>
-		<!-- Header -->
-			<header id="header">
-				<h1><a href="/music/">DJ McLovin</a></h1>
-			</header>
+		{% include "./nav.html" %}
 
+
+		<div id="main">
+		<div id="content" class="container">
+		<section>
+		<header>
 		{% if full_name %}
-			<br>
+		<h2>
 			<a href="/music/artist/{{artist_id}}/">{{ full_name }}</a>
+		</h2>
 		{% endif %}
 		{% if album_name %}
-			| {{ album_name }}
+			<h3>
+			{{ album_name }}
+			</h3>
 		{% endif %}
+		</header>
+		<p>
 		{% if cover_url %}
 			<br>
 			<img src="/media/cover_art/{{ cover_url }}">
@@ -27,7 +34,7 @@
 		<p>
 
 		{% if song_list %}
-			<table>
+			<table cellpadding=5 cellspacing=5>
     			{% for s in song_list %}
 				<tr>
 				<td>
@@ -45,10 +52,13 @@
     			<p>No songs available for this artist / album.</p>
 		{% endif %}		
 
+		</section>
+		</div>
+		</div>
+
 		{% include "./footer.html" %}
 
-		<!-- Scripts -->
-			<!-- <script src="/static/music/assets/js/main.js"></script> -->
+		
 
 	</body>
 </html>

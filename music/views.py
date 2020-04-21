@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.db import connection
 import m3u8
+import glob
 import re
 import os
+
 
 
 from .models import Genre, Artist, Song
@@ -129,6 +131,10 @@ def playlistPage(request, playlist_file):
 		column_names = [col[0] for col in desc]
 		sList = [dict(zip(column_names, row)) for row in cur.fetchall()]
 		for sl in sList:
+			#sl['song_name'] = re.sub('\]', '', sl['song_name'])
+			#sl['song_name'] = re.sub('\[', '', sl['song_name'])
+			#sl['full_name'] = re.sub('\]', '', sl['full_name'])
+			#sl['full_name'] = re.sub('\[', '', sl['full_name'])
 			sl['cover_url'] = returnCoverUrl(sl['song_id'])
 			playlist_songs.append(sl)
 
@@ -140,3 +146,27 @@ def playlistPage(request, playlist_file):
 	return render(request, 'music/playlist.html', templateData)
 
 ###
+
+def playlistIndex(request):
+	
+	plList = glob.glob(musicDir + "/*.m3u")
+	plList.sort(key=os.path.getmtime, reverse=True)
+
+	playlists = list()
+
+	for p in plList:
+		d = dict()
+		# get filename - everything after the trailing slash
+		d['url'] = p.rsplit('/', 1)[-1]
+		d['url'] = re.sub('.m3u', '', d['url'])
+		d['name'] = d['url']
+		d['name'] = re.sub('_', ' ', d['name'])
+		d['name'] = d['name'].title()
+		playlists.append(d)
+
+	templateData = {
+		'playlists': playlists
+	}
+
+	return render(request, 'music/playlistIndex.html', templateData)
+

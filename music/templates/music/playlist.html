@@ -3,35 +3,37 @@
 		<title>DJ McLovin Music Database</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="/static/music/assets/css/main.css" />
 		<script type="text/javascript" src="/static/music/assets/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/static/music/assets/js/jquery.jplayer.min.js"></script>
 		<script type="text/javascript" src="/static/music/assets/js/jplayer.playlist.min.js"></script>
 		<script type="text/javascript" src="/static/music/assets/js/jquery.jplayer.inspector.min.js"></script>
 		<link type="text/css" href="/static/music/skin/pink.flag/css/jplayer.pink.flag.css" rel="stylesheet" />
 		{% include "./player.js" with playlist_songs=playlist_songs %}
-	</head>
-	<body class="is-preload">
-		<p>
+                {% include "./header.html" %}
+        </head>
+        <body>
 
-		<!-- Header -->
-			<header id="header">
-				<h1><a href="/music/">DJ McLovin</a></h1>
-			</header>
+                {% include "./nav.html" %}
 
-		<p>
+                <div id="main">
+                <div id="content" class="container">
+                <section>
+		<header>
 
-		<p>
 		{% if playlist_title %}
-			{{ playlist_title }}	
+			<h2>{{ playlist_title }}</h2>
 		{% endif %}
+
+		</header>
+		<p>
 
 		{% include "./player.html" %}
 
-		{% include "./footer.html" %}
+                </section>
+                </div>
+                </div>
 
-		<!-- Scripts -->
-			<!-- <script src="/static/music/assets/js/main.js"></script> -->
+		{% include "./footer.html" %}
 
 	</body>
 </html>

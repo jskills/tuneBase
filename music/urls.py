@@ -16,7 +16,9 @@ urlpatterns = [
 	path('album/<int:artist_id>/<slug:album>/', views.albumPage, name='albumPage'),
 	# e.g. /music/song/1/
 	path('song/<int:song_id>/', views.songPage, name='songPage'),
-	# e.g. /mixtape/Kind_Jim/
+	# e.g. /music/mixtape/
+	path('mixtape/', views.playlistIndex, name='playlistIndex'),
+	# e.g. /music/mixtape/Kind_Jim/
 	path('mixtape/<slug:playlist_file>/', views.playlistPage, name='playlistPage'),
 ]
 

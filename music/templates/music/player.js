@@ -7,6 +7,7 @@
 					cssSelectorAncestor: "#jp_container_N"
 				},[
                         {% for ps in playlist_songs %}
+				{% autoescape off %}
 				{
 					title:"{{ps.full_name}} - {{ps.song_name}}",
 					mp3:"/media/{{ps.file_path}}",
@@ -14,6 +15,7 @@
 					poster:"/media/cover_art/{{ps.cover_url}}"
 					{% endif %}
 				},
+				{% endautoescape %}
 			{% endfor %}
 				], {
 					playlistOptions: {
