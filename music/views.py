@@ -15,7 +15,8 @@ coverImageDir = musicDir + "cover_art/"
 ###
 
 def returnCoverUrl(song_id):
-	cover_url = None
+	cover_url = "1.jpg"
+
 	coverFile = coverImageDir + str(song_id) + ".jpg"
 	if os.path.exists(coverFile):
 		cover_url = str(song_id) + ".jpg"
