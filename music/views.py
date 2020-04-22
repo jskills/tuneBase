@@ -6,7 +6,6 @@ import re
 import os
 
 
-
 from .models import Genre, Artist, Song
 
 musicDir = "/media/jskills/Toshiba-2TB/"
@@ -14,8 +13,11 @@ coverImageDir = musicDir + "cover_art/"
 
 ###
 
-def returnCoverUrl(song_id):
-	cover_url = "1.jpg"
+def returnCoverUrl(song_id, useDefault=False):
+	cover_url = None
+
+	if useDefault:
+		cover_url = "1.jpg"
 
 	coverFile = coverImageDir + str(song_id) + ".jpg"
 	if os.path.exists(coverFile):
@@ -136,7 +138,7 @@ def playlistPage(request, playlist_file):
 			#sl['song_name'] = re.sub('\[', '', sl['song_name'])
 			#sl['full_name'] = re.sub('\]', '', sl['full_name'])
 			#sl['full_name'] = re.sub('\[', '', sl['full_name'])
-			sl['cover_url'] = returnCoverUrl(sl['song_id'])
+			sl['cover_url'] = returnCoverUrl(sl['song_id'], useDefault=True)
 			playlist_songs.append(sl)
 
 	templateData = {
@@ -166,8 +168,55 @@ def playlistIndex(request):
 		playlists.append(d)
 
 	templateData = {
-		'playlists': playlists
+		'contentList': playlists,
+		'sectionName': 'Play List',
+		'slug': 'mixtape'	
 	}
 
-	return render(request, 'music/playlistIndex.html', templateData)
+	return render(request, 'music/section.html', templateData)
+
+###
+
+
+def genreIndex(request):
+
+	genreList = Genre.objects.all().order_by('genre_name')
+	gList = list()
+	for g in genreList:
+		d = dict()
+		d['name'] = g.genre_name
+		d['url'] = g.id
+		gList.append(d)
+
+	templateData = {
+		'contentList': gList,
+		'sectionName': 'Genre',
+		'slug': 'genre'	
+	}
+
+	return render(request, 'music/section.html', templateData)
+
+###
+
+def genrePage(request, genre_id):
+
+	g = Genre.objects.get(id=genre_id)
+
+	cur = connection.cursor()
+	sql = "select distinct(artist_id) as url, full_name as name from song s, artist a"
+	sql += " where genre_id = %s and s.artist_id = a.id order by full_name"
+	cur.execute(sql, [genre_id])
+	desc = cur.description
+	column_names = [col[0] for col in desc]
+	aList = [dict(zip(column_names, row)) for row in cur.fetchall()]
+
+	templateData = {
+		'contentList': aList,
+		'sectionName': g.genre_name,
+		'slug': 'artist'	
+	}
+
+	return render(request, 'music/section.html', templateData)
+
+
 

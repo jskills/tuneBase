@@ -11,19 +11,26 @@
                 <div id="main">
                 <div id="content" class="container">
                 <section>
+		{% if sectionName %}
+		<header>
+		<h2>
+		{{sectionName}}s
+		</h2>
+		</header>
+		{% endif %}
 
 
 		<p>
 
-		{% if playlists %}
+		{% if contentList %}
     			<ul>
-    			{% for p in playlists %}
-        			<li><a href="/music/mixtape/{{ p.url }}">{{ p.name }}</a></li>
+    			{% for cl in contentList %}
+        			<li><a href="/music/{{slug}}/{{ cl.url }}">{{ cl.name }}</a></li>
 				<p>
     			{% endfor %}
     			</ul>
 		{% else %}
-			No playlists found.
+			No {{ section_name }}s found.
 		{% endif %}		
 
                 </section>

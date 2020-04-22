@@ -7,18 +7,36 @@ admin.site.site_header = 'Music Database Administration'
 app_name = 'music'
 
 urlpatterns = [
-	# e.g. /music/
+	# Site Index
 	path('', views.index, name='index'),
-	#path('artist/', views.artist, name='artist'),
-	# e.g. /music/artist/1/
+	# /music/
+
+	# Artist Page
 	path('artist/<int:artist_id>/', views.artistPage, name='artistPage'),
-	# e.g. /music/album/1/Dirt/
+	# /music/artist/1
+
+	# Album Page
 	path('album/<int:artist_id>/<slug:album>/', views.albumPage, name='albumPage'),
-	# e.g. /music/song/1/
+	# /music/album/1/Dirt/
+
+	# Song Page
 	path('song/<int:song_id>/', views.songPage, name='songPage'),
-	# e.g. /music/mixtape/
+	# /music/song/1/
+
+	# PlayList Index Page
 	path('mixtape/', views.playlistIndex, name='playlistIndex'),
-	# e.g. /music/mixtape/Kind_Jim/
+	# /music/mixtape/
+
+	# Playlist Page
 	path('mixtape/<slug:playlist_file>/', views.playlistPage, name='playlistPage'),
+	# /music/mixtape/Kind_Jim/
+
+	# Genre Index Page
+	path('genre/', views.genreIndex, name='genreIndex'),
+	# /music/genre/
+
+	# Genre Page
+	path('genre/<int:genre_id>/', views.genrePage, name='genrePage')
+	# /music/genre/29/
 ]
 
