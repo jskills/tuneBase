@@ -44,19 +44,7 @@ def index(request):
 
 def artistPage(request, artist_id):
 	a = Artist.objects.get(id=artist_id)
-
-	cur = connection.cursor()
-	sql = "select distinct(INITCAP(album)) as album from song where artist_id = %s"
-	cur.execute(sql, [artist_id])
-	sList = cur.fetchall()
-	# fetchall sends back a list of tuples
-	aList = list()
-	for s in sList:
-		d = dict()
-		d['album'] = str(s[0])
-		if d['album']:
-			d['album_url'] = re.sub(' ', '_', d['album'])
-		aList.append(d)
+	aList = a.getUniqueAlbums(artist_id)
 
 	templateData = {
 		'album_list': aList,
@@ -73,12 +61,7 @@ def albumPage(request, artist_id, album):
 
 	album_name = re.sub('_', ' ', album)
 
-	cur = connection.cursor()
-	sql = "select * from song where artist_id = %s and LOWER(album) = LOWER(%s) order by track_number"
-	cur.execute(sql, [artist_id, album_name])
-	desc = cur.description
-	column_names = [col[0] for col in desc]
-	sList = [dict(zip(column_names, row)) for row in cur.fetchall()]
+	sList = a.getAlbumSongs(id, album_name)
 
 	cover_url = None
 	for s in sList:
@@ -202,13 +185,7 @@ def genrePage(request, genre_id):
 
 	g = Genre.objects.get(id=genre_id)
 
-	cur = connection.cursor()
-	sql = "select distinct(artist_id) as url, full_name as name from song s, artist a"
-	sql += " where genre_id = %s and s.artist_id = a.id order by full_name"
-	cur.execute(sql, [genre_id])
-	desc = cur.description
-	column_names = [col[0] for col in desc]
-	aList = [dict(zip(column_names, row)) for row in cur.fetchall()]
+	aList = g.getGenreArtists(genre_id)
 
 	templateData = {
 		'contentList': aList,
@@ -217,6 +194,4 @@ def genrePage(request, genre_id):
 	}
 
 	return render(request, 'music/section.html', templateData)
-
-
 

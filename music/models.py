@@ -1,6 +1,8 @@
 import datetime
-
+import re
+from django.db import connection
 from django.db import models
+
 
 
 
@@ -19,6 +21,36 @@ class Artist(models.Model):
 	def __str__(self):
 		return self.full_name
 
+	def getUniqueAlbums(self, id):
+		cur = connection.cursor()
+		sql = "select distinct(INITCAP(album)) as album from song where artist_id = %s"
+		cur.execute(sql, [id])
+		sList = cur.fetchall()
+		aList = list()
+		for s in sList:
+			d = dict()
+			d['album'] = str(s[0])
+			if d['album']:
+				d['album_url'] = re.sub(' ', '_', d['album'])
+			aList.append(d)
+
+		cur.close()
+
+		return aList
+
+	def getAlbumSongs(self, id, album_name):
+		cur = connection.cursor()
+		sql = "select * from song where artist_id = %s and LOWER(album) = LOWER(%s)"
+		sql += " order by track_number"
+		cur.execute(sql, [id, album_name])
+		desc = cur.description
+		column_names = [col[0] for col in desc]
+		sList = [dict(zip(column_names, row)) for row in cur.fetchall()]
+		cur.close()	
+
+		return sList
+		
+
 class Genre(models.Model):
 	genre_name = models.CharField(max_length=200, unique=True)
 	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -31,6 +63,19 @@ class Genre(models.Model):
 
 	def __str__(self):
 		return self.genre_name
+
+	def getGenreArtists(self, id):
+		cur = connection.cursor()
+		sql = "select distinct(artist_id) as url, full_name as name from song s, artist a"
+		sql += " where genre_id = %s and s.artist_id = a.id order by full_name"
+		cur.execute(sql, [id])
+		desc = cur.description
+		column_names = [col[0] for col in desc]
+		aList = [dict(zip(column_names, row)) for row in cur.fetchall()]
+		conn.close()
+	
+		return aList
+	
 
 class Song(models.Model):
 	song_name = models.CharField(max_length=250)
