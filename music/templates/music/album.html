@@ -1,8 +1,7 @@
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>DJ McLovin Music Database</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		{% include "./header.html" %}
 	</head>
 	<body>
@@ -19,9 +18,9 @@
 		</h2>
 		{% endif %}
 		{% if album_name %}
-			<h3>
+			<span class="byline">
 			{{ album_name }}
-			</h3>
+			</span>
 		{% endif %}
 		</header>
 		<p>

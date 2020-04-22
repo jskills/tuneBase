@@ -5,7 +5,6 @@ from django.db import models
 
 
 
-
 # Create your models here.
 
 class Artist(models.Model):
@@ -34,7 +33,7 @@ class Artist(models.Model):
 				d['album_url'] = re.sub(' ', '_', d['album'])
 			aList.append(d)
 
-		cur.close()
+		connection.close()
 
 		return aList
 
@@ -46,7 +45,7 @@ class Artist(models.Model):
 		desc = cur.description
 		column_names = [col[0] for col in desc]
 		sList = [dict(zip(column_names, row)) for row in cur.fetchall()]
-		cur.close()	
+		connection.close()	
 
 		return sList
 		
@@ -72,7 +71,7 @@ class Genre(models.Model):
 		desc = cur.description
 		column_names = [col[0] for col in desc]
 		aList = [dict(zip(column_names, row)) for row in cur.fetchall()]
-		conn.close()
+		connection.close()
 	
 		return aList
 	

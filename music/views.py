@@ -6,6 +6,7 @@ import re
 import os
 
 
+
 from .models import Genre, Artist, Song
 
 musicDir = "/media/jskills/Toshiba-2TB/"
@@ -61,7 +62,7 @@ def albumPage(request, artist_id, album):
 
 	album_name = re.sub('_', ' ', album)
 
-	sList = a.getAlbumSongs(id, album_name)
+	sList = a.getAlbumSongs(artist_id, album_name)
 
 	cover_url = None
 	for s in sList:
@@ -152,7 +153,7 @@ def playlistIndex(request):
 
 	templateData = {
 		'contentList': playlists,
-		'sectionName': 'Play List',
+		'sectionName': 'Play Lists',
 		'slug': 'mixtape'	
 	}
 
@@ -173,7 +174,7 @@ def genreIndex(request):
 
 	templateData = {
 		'contentList': gList,
-		'sectionName': 'Genre',
+		'sectionName': 'Genres',
 		'slug': 'genre'	
 	}
 
@@ -189,7 +190,7 @@ def genrePage(request, genre_id):
 
 	templateData = {
 		'contentList': aList,
-		'sectionName': g.genre_name,
+		'sectionName': 'Genre : ' + g.genre_name,
 		'slug': 'artist'	
 	}
 

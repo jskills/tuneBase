@@ -1,8 +1,6 @@
 <html>
 	<head>
 		<title>DJ McLovin Music Database</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		{% include "./header.html" %}
         </head>
         <body>
@@ -28,9 +26,9 @@
 		<p>
 
 		{% if song_object %}
-			<h3>
+			<span class="byline">
 			<b>{{ song_object.song_name }}</b>
-			</h3>
+			</span>
 			<br>
 			<audio controls>
 				<source src="/media/{{ song_object.file_path }}" type="audio/mpeg">

@@ -1,8 +1,7 @@
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>DJ McLovin Music Database</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		{% include "./header.html" %}
         </head>
         <body>
@@ -14,7 +13,7 @@
 		{% if sectionName %}
 		<header>
 		<h2>
-		{{sectionName}}s
+		{{sectionName}}
 		</h2>
 		</header>
 		{% endif %}
@@ -26,7 +25,6 @@
     			<ul>
     			{% for cl in contentList %}
         			<li><a href="/music/{{slug}}/{{ cl.url }}">{{ cl.name }}</a></li>
-				<p>
     			{% endfor %}
     			</ul>
 		{% else %}
