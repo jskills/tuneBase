@@ -46,11 +46,14 @@ def index(request):
 def artistPage(request, artist_id):
 	a = Artist.objects.get(id=artist_id)
 	aList = a.getUniqueAlbums(artist_id)
+	sList = Song.objects.filter(artist=artist_id)
 
 	templateData = {
 		'album_list': aList,
+		'song_list' : sList,
 		'artist_id': artist_id,
-		'full_name': a.full_name	
+		'full_name': a.full_name,
+		'total_songs' : sList.count() 
 	}
 
 	return render(request, 'music/artist.html', templateData)
@@ -196,3 +199,8 @@ def genrePage(request, genre_id):
 
 	return render(request, 'music/section.html', templateData)
 
+###
+
+def livePage(request):
+
+	return render(request, 'music/live.html')

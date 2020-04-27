@@ -36,7 +36,11 @@ urlpatterns = [
 	# /music/genre/
 
 	# Genre Page
-	path('genre/<int:genre_id>/', views.genrePage, name='genrePage')
+	path('genre/<int:genre_id>/', views.genrePage, name='genrePage'),
 	# /music/genre/29/
+
+	# Live Page
+	path('live/', views.livePage, name='live'),
+	# /music/live
 ]
 

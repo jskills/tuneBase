@@ -27,6 +27,9 @@ class Artist(models.Model):
 		sList = cur.fetchall()
 		aList = list()
 		for s in sList:
+			if s[0] is None:
+				continue
+			print("found album: " + str(s[0]))
 			d = dict()
 			d['album'] = str(s[0])
 			if d['album']:
@@ -48,7 +51,8 @@ class Artist(models.Model):
 		connection.close()	
 
 		return sList
-		
+
+###
 
 class Genre(models.Model):
 	genre_name = models.CharField(max_length=200, unique=True)
@@ -75,6 +79,7 @@ class Genre(models.Model):
 	
 		return aList
 	
+###
 
 class Song(models.Model):
 	song_name = models.CharField(max_length=250)
@@ -97,5 +102,25 @@ class Song(models.Model):
 
 	def __str__(self):
 		return self.song_name
+
+###
+
+class Playlist(models.Model):
+	title = models.CharField(max_length=250)
+	file_path = models.CharField(max_length=300, unique=True)
+	comment = models.CharField(max_length=200, blank=True, null=True)
+	set_date = models.DateField(db_index=True)
+	location = models.CharField(max_length=200, blank=True, null=True)
+	live_ind = models.BooleanField(default=False)
+	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
+	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
+	last_updated_by = models.CharField(max_length=20)
+
+	class Meta:
+		db_table = '"playlist"'
+		ordering = ['set_date']
+
+	def __str__(self):
+		return self.title
 
 
