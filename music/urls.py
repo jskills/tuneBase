@@ -11,6 +11,10 @@ urlpatterns = [
 	path('', views.index, name='index'),
 	# /music/
 
+	# Bio Page
+	path('bio/', views.bioPage, name='bioPage'),
+	# /music/bio/
+
 	# Artist Page
 	path('artist/<int:artist_id>/', views.artistPage, name='artistPage'),
 	# /music/artist/1
@@ -27,6 +31,10 @@ urlpatterns = [
 	path('mixtape/', views.playlistIndex, name='playlistIndex'),
 	# /music/mixtape/
 
+	# Past Gigs Index Page
+	path('shows/', views.liveSetIndex, name='liveSetIndex'),
+	# /music/shows/
+
 	# Playlist Page
 	path('mixtape/<slug:playlist_file>/', views.playlistPage, name='playlistPage'),
 	# /music/mixtape/Kind_Jim/
@@ -39,7 +47,7 @@ urlpatterns = [
 	path('genre/<int:genre_id>/', views.genrePage, name='genrePage'),
 	# /music/genre/29/
 
-	# Live Page
+	# Live Stream Page
 	path('live/', views.livePage, name='live'),
 	# /music/live
 ]

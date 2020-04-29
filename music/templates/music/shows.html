@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>DJ McLovin Music Database</title>
+		{% include "./header.html" %}
+        </head>
+        <body>
+                {% include "./nav.html" %}
+
+                <div id="main">
+                <div id="content" class="container">
+                <section>
+                <header>
+                <h2>
+                Shows
+                </h2>
+                <p>
+                <h3>
+                Tune in every Friday at 8:30 pm EST for a new live set <a href="/music/live/">here.</a>
+                </header>
+                <p>
+                </section>
+		<p>
+		<b>Setlists for past shows</b>
+		<p>
+
+		{% if contentList %}
+    			<ul>
+    			{% for cl in contentList %}
+        			<li><a href="/music/{{slug}}/{{ cl.url }}">{{ cl.name }}</a></li>
+    			{% endfor %}
+    			</ul>
+		{% else %}
+			No past shows found.
+		{% endif %}		
+
+                </section>
+                </div>
+                </div>
+
+		{% include "./footer.html" %}
+
+
+	</body>
+</html>

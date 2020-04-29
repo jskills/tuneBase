@@ -109,7 +109,7 @@ class Playlist(models.Model):
 	title = models.CharField(max_length=250)
 	file_path = models.CharField(max_length=300, unique=True)
 	comment = models.CharField(max_length=200, blank=True, null=True)
-	set_date = models.DateField(db_index=True)
+	set_date = models.DateField(blank=True, null=True)
 	location = models.CharField(max_length=200, blank=True, null=True)
 	live_ind = models.BooleanField(default=False)
 	created_date = models.DateTimeField(auto_now_add=True, db_index=True)

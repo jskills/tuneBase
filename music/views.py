@@ -7,7 +7,9 @@ import os
 
 
 
-from .models import Genre, Artist, Song
+
+
+from .models import Genre, Artist, Song, Playlist
 
 musicDir = "/media/jskills/Toshiba-2TB/"
 coverImageDir = musicDir + "cover_art/"
@@ -39,6 +41,16 @@ def getPlaylistSongs(filename):
 
 def index(request):
 	return render(request, 'music/index.html')
+
+###
+
+def bioPage(request):
+	return render(request, 'music/bio.html')
+
+###
+
+def livePage(request):
+        return render(request, 'music/live.html')
 
 ###
 
@@ -201,6 +213,25 @@ def genrePage(request, genre_id):
 
 ###
 
-def livePage(request):
+def liveSetIndex(request):
 
-	return render(request, 'music/live.html')
+	liveSets = Playlist.objects.filter(live_ind=True).order_by('last_updated_date')
+
+	playLists = list()
+
+	for ls in liveSets:
+		d = dict()
+		d['name'] = ls.title
+		d['url'] = ls.file_path.rsplit('/', 1)[-1]
+		d['url'] = re.sub('.m3u', '', d['url'])
+		playLists.append(d)	
+
+	templateData = {
+		'contentList' : playLists,
+		'sectionName' : 'Past Gigs',
+		'slug' : 'mixtape'
+	}
+
+	return render(request, 'music/shows.html', templateData)
+
+###
