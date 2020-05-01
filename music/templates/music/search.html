@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>DJ McLovin Music Database</title>
+		{% include "./header.html" %}
+        </head>
+        <body>
+                {% include "./nav.html" %}
+
+                <div id="main">
+                <div id="content" class="container">
+                <section>
+
+
+		<p>
+
+		{% if search_text %}
+			<header>
+			<h2>
+			Search for : {{ search_text }}	
+			</h2>
+			<p></p>
+			</header>
+		{% endif %}
+
+		{% if artist_list %}
+			<h3><b>Artists<b></h3>
+			<ul>
+			{% for a in artist_list %}
+				<li><a href="/music/artist/{{ a.id }}/">{{ a.full_name }}</a></li>
+			{% endfor %}
+			</ul>
+			<p></p>
+		{% endif %}
+
+		{% if album_list %}
+			<h3><b>Albums<b></h3>
+    			<ul>
+    			{% for a in album_list %}
+        			<li><a href="/music/album/{{ a.artist_id }}/{{ a.album_url }}/">{{ a.album }}</a></li>
+    			{% endfor %}
+    			</ul>
+			<p></p>
+		{% endif %}
+		{% if song_list %}
+			<h3><b>Songs<b></h3>
+			<ul>
+			{% for s in song_list %}
+				 <li><a href="/music/song/{{s.id}}/">{{s.song_name}}</a></li>
+			{% endfor %}
+			</ul>
+			<p></p>
+		{% endif %}
+
+		{% if pl_list %}
+			<h3><b>Playlists<b></h3>
+			<ul>
+			{% for p in pl_list %}
+				<li>
+				{% if p.live_ind %}
+					<img src="/static/music/images/live_icon.PNG">
+				{% endif %}
+				<a href="/music/mixtape/{{p.url}}"/>{{p.title}}</a></li>
+			{% endfor %}
+			</ul>
+			<p></p>
+		{% endif %}
+
+
+		{% if noneFound %}
+    			<p>No songs, albums, artists or playlists available for this search.</p>
+		{% endif %}		
+
+                </section>
+                </div>
+                </div>
+
+		{% include "./footer.html" %}
+
+
+	</body>
+</html>

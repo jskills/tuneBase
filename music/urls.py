@@ -48,7 +48,11 @@ urlpatterns = [
 	# /music/genre/29/
 
 	# Live Stream Page
-	path('live/', views.livePage, name='live'),
+	path('live/', views.livePage, name='livePage'),
 	# /music/live
+
+	# Search Page
+	path('search/', views.searchPage, name='searchPage')
+	# /music/search/ (with POSTED value for "searchTerm"
 ]
 

@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.db import connection
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
 import m3u8
 import glob
 import re
 import os
-
-
 
 
 
@@ -224,6 +223,7 @@ def liveSetIndex(request):
 		d['name'] = ls.title
 		d['url'] = ls.file_path.rsplit('/', 1)[-1]
 		d['url'] = re.sub('.m3u', '', d['url'])
+		d['live_ind'] = ls.live_ind
 		playLists.append(d)	
 
 	templateData = {
@@ -233,5 +233,34 @@ def liveSetIndex(request):
 	}
 
 	return render(request, 'music/shows.html', templateData)
+
+###
+
+@csrf_exempt
+def searchPage(request):
+
+	searchText = request.POST['search_text']
+
+	searchDict = dict()
+
+	s = Song()
+
+	if searchText:
+		searchDict = s.multiSearch(searchText)
+
+	noneFound = False
+
+	if not searchDict:
+		noneFound = True
+
+	templateData = {
+		'song_list' : searchDict['songList'],
+		'album_list' : searchDict['albumList'],
+		'artist_list' : searchDict['artistList'],
+		'pl_list' : searchDict['plList'],
+		'search_text' : searchText
+	}
+
+	return render(request, 'music/search.html', templateData)
 
 ###

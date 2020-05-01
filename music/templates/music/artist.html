@@ -27,12 +27,18 @@
 		{% endif %}
 
 		{% if album_list %}
+			<h3>
+                       	<b>Albums</b>
+                        </h3>
     			<ul>
     			{% for a in album_list %}
         			<li><a href="/music/album/{{ artist_id }}/{{ a.album_url }}/">{{ a.album }}</a></li>
     			{% endfor %}
     			</ul>
 		{% elif song_list %}
+                        <h3>
+                        <b>Songs</b>
+                        </h3>
 			<ul>
 			{% for s in song_list %}
 				 <li><a href="/music/song/{{s.id}}/">{{s.song_name}}</a></li>

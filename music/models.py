@@ -103,6 +103,39 @@ class Song(models.Model):
 	def __str__(self):
 		return self.song_name
 
+	def multiSearch(self, searchText):
+		returnDict = dict()
+		songList = albumList = artistList = plList = list()
+
+		# get any song, artist, album or playlist with the search term present
+		songList = Song.objects.filter(song_name__icontains=searchText)
+		returnDict['songList'] = songList
+		aList = list()
+		albumList = Song.objects.filter(album__icontains=searchText).distinct()
+		for al in albumList:
+			d = dict()
+			d['album'] = al.album
+			d['artist_id'] = al.artist_id
+			d['album_url'] = re.sub(' ', '_', d['album'])
+			aList.append(d)
+		returnDict['albumList'] = aList
+		artistList = Artist.objects.filter(full_name__icontains=searchText)
+		returnDict['artistList'] = artistList
+		playlistList = Playlist.objects.filter(title__icontains=searchText)
+		plList = list()
+		for pl in playlistList:
+			d = dict()
+			d['title'] = pl.title
+			d['url'] = d['title']
+			d['url'] = pl.file_path.rsplit('/', 1)[-1]
+			d['url'] = re.sub('.m3u', '', d['url'])
+			d['live_ind'] = pl.live_ind
+			plList.append(d)
+		returnDict['plList'] = plList
+
+		return returnDict
+	
+
 ###
 
 class Playlist(models.Model):
