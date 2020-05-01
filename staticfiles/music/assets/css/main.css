@@ -585,7 +585,7 @@ textarea {
   outline: 0;
   padding: 0 1em;
   text-decoration: none;
-  width: 100%; }
+  width: 25%; }
   input[type="text"]:invalid,
   input[type="password"]:invalid,
   input[type="email"]:invalid,

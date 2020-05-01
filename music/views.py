@@ -8,6 +8,7 @@ import os
 
 
 
+
 from .models import Genre, Artist, Song, Playlist
 
 musicDir = "/media/jskills/Toshiba-2TB/"
