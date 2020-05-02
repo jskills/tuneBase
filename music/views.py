@@ -9,6 +9,7 @@ import os
 
 
 
+
 from .models import Genre, Artist, Song, Playlist
 
 musicDir = "/media/jskills/Toshiba-2TB/"
@@ -173,6 +174,49 @@ def playlistIndex(request):
 	}
 
 	return render(request, 'music/section.html', templateData)
+
+###
+
+def videoIndex(request):
+
+	vList = glob.glob(musicDir + "/videos/*.mp4")
+	vList.sort(key=os.path.getmtime, reverse=True)
+
+	videoList = list()
+
+	for v in vList:
+		d = dict()
+		# get filename - everything after the trailing slash
+		d['url'] = v.rsplit('/', 1)[-1]
+		d['url'] = re.sub('.mp4', '', d['url'])
+		d['name'] = d['url']
+		d['name'] = re.sub('_', ' ', d['name'])
+		d['name'] = d['name'].title()
+		videoList.append(d)
+
+	templateData = {
+		'contentList': videoList,
+		'sectionName': 'Videos',
+		'slug': 'videos'
+	}
+
+	return render(request, 'music/section.html', templateData)		
+
+###
+
+
+def videoPage(request, video_file):
+
+	video_title = re.sub('_', ' ', video_file)
+
+	video_url = "/media/videos/" + video_file + ".mp4"
+
+	templateData = {
+		'video_title': video_title,
+		'video_url': video_url
+	}
+
+	return render(request, 'music/video.html', templateData)
 
 ###
 

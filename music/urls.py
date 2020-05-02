@@ -31,6 +31,10 @@ urlpatterns = [
 	path('mixtape/', views.playlistIndex, name='playlistIndex'),
 	# /music/mixtape/
 
+	# Video Index Page
+	path('videos/', views.videoIndex, name='videoIndex'),
+	# /music/videos/
+
 	# Past Gigs Index Page
 	path('shows/', views.liveSetIndex, name='liveSetIndex'),
 	# /music/shows/
@@ -38,6 +42,10 @@ urlpatterns = [
 	# Playlist Page
 	path('mixtape/<slug:playlist_file>/', views.playlistPage, name='playlistPage'),
 	# /music/mixtape/Kind_Jim/
+
+	# Video Page
+	path('videos/<slug:video_file>/', views.videoPage,  name='videoPage'),
+	# /music/videos/2020-05-01_20-29-53.mp4
 
 	# Genre Index Page
 	path('genre/', views.genreIndex, name='genreIndex'),

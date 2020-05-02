@@ -22,7 +22,7 @@
 						enableRemoveControls: true
 					},
 					swfPath: "/static/music/assets/js",
-					supplied: "mp3, ebmv, ogv, m4v, oga",
+					supplied: "mp3, mp4, ebmv, ogv, m4v, oga",
 					useStateClassSkin: true,
 					autoBlur: false,
 					smoothPlayBar: true,
