@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>DJ McLovin Music Database</title>
+		{% include "./header.html" %}
+        </head>
+        <body>
+                {% include "./nav.html" %}
+
+                <div id="main">
+                <div id="content" class="container">
+                <section>
+                <header>
+                <h2>
+		{% if content.title %}
+			<b>{{ content.title }}</b><br>
+		{% endif %}
+                </h2>
+		<p>
+		<h3>
+		{% if content.show_date %}
+			{{ content.show_date }}
+		{% endif %}
+		</h3>
+                </header>
+                <p>
+                </section>
+		<p>
+		<img src="/static/music/images/live_icon.PNG">
+		<p>
+		{% if content.location %}
+			<b>Location:</b> {{ content.location }}<br>
+		{% endif %}
+		<p></p>
+		{% if content.comment %}
+			{{ content.comment }}<br>
+		{% endif %}
+		<p></p>
+		{% if playlist_title %}
+			<b>Setlist:</b> <a href="/music/mixtape/{{playlist_url}}/">{{ playlist_title }}<a>
+		<p></p>
+		{% endif %}
+		{% if videos %}
+			<b>Videos:</b>
+    			<ul>
+    			{% for v in videos %}
+        			<li><a href="/music/videos/{{ v.id }}">{{ v.title }}</a></li>
+    			{% endfor %}
+		{% endif %}
+    		</ul>
+
+                </section>
+                </div>
+                </div>
+
+		{% include "./footer.html" %}
+
+
+	</body>
+</html>

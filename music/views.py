@@ -10,7 +10,7 @@ import os
 
 
 
-from .models import Genre, Artist, Song, Playlist
+from .models import Genre, Artist, Song, Playlist, Show, Video, Image
 
 musicDir = "/media/jskills/Toshiba-2TB/"
 coverImageDir = musicDir + "cover_art/"
@@ -205,15 +205,19 @@ def videoIndex(request):
 ###
 
 
-def videoPage(request, video_file):
+def videoPage(request, video_slug):
 
-	video_title = re.sub('_', ' ', video_file)
+	v = None
 
-	video_url = "/media/videos/" + video_file + ".mp4"
+	try:
+		v = Video.objects.get(id=video_slug)
+	except:
+		v = dict()
+		v['title'] =  re.sub('_', ' ', video_slug)
+		v['file_path'] = "/videos/" + video_slug + ".mp4"
 
 	templateData = {
-		'video_title': video_title,
-		'video_url': video_url
+		'content' : v
 	}
 
 	return render(request, 'music/video.html', templateData)
@@ -257,6 +261,52 @@ def genrePage(request, genre_id):
 
 ###
 
+def showIndex(request):
+
+	showList = Show.objects.all().order_by('-show_date')
+	sList = list()
+	for s in showList:
+		d = dict()
+		d['name'] = s.title
+		d['url'] = s.id
+		sList.append(d)
+
+	templateData = {
+		'contentList': sList,
+		'sectionName': 'Shows',
+		'slug': 'shows'	
+	}
+
+	return render(request, 'music/section.html', templateData)
+
+###
+
+def showPage(request, show_id):
+
+	s = Show.objects.get(id=show_id)
+
+	vList = s.getShowVideos(show_id)
+	iList = s.getShowImages(show_id)
+
+	pl = Playlist.objects.get(id=s.playlist_id)
+	p_url = pl.title
+	p_url = pl.file_path.rsplit('/', 1)[-1]
+	p_url = re.sub('.m3u', '', p_url)
+
+
+
+	templateData = {
+		'content' : s,
+		'videos' : vList,
+		'images' : iList,
+		'playlist_url' : p_url,
+		'playlist_title' : pl.title
+	}
+
+	return render(request, 'music/show.html', templateData)
+
+###
+
 def liveSetIndex(request):
 
 	liveSets = Playlist.objects.filter(live_ind=True).order_by('last_updated_date')
@@ -277,7 +327,7 @@ def liveSetIndex(request):
 		'slug' : 'mixtape'
 	}
 
-	return render(request, 'music/shows.html', templateData)
+	return render(request, 'music/livesets.html', templateData)
 
 ###
 

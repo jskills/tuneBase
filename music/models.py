@@ -143,7 +143,6 @@ class Playlist(models.Model):
 	file_path = models.CharField(max_length=300, unique=True)
 	comment = models.CharField(max_length=200, blank=True, null=True)
 	set_date = models.DateField(blank=True, null=True)
-	location = models.CharField(max_length=200, blank=True, null=True)
 	live_ind = models.BooleanField(default=False)
 	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
 	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
@@ -151,9 +150,79 @@ class Playlist(models.Model):
 
 	class Meta:
 		db_table = '"playlist"'
-		ordering = ['set_date']
+		ordering = ['last_updated_date']
 
 	def __str__(self):
 		return self.title
+
+###
+
+class Show (models.Model):
+	title = models.CharField(max_length=250)
+	playlist = models.ForeignKey(Playlist, on_delete=models.PROTECT)
+	location = models.CharField(max_length=200, blank=True, null=True)
+	show_date = models.DateField(blank=True, null=True) 
+	comment = models.CharField(max_length=200, blank=True, null=True)
+	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
+	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
+	last_updated_by = models.CharField(max_length=20)
+
+	class Meta:
+		db_table = '"show"'
+		ordering = ['show_date']
+
+	def __str__(self):
+		return self.title
+
+	def getShowVideos(self, id):
+		vList = list()
+		vList = Show.objects.get(id=id).video_set.all()
+		return vList
+
+	def getShowImages(self, id):
+		iList = list()
+		iList = Show.objects.get(id=id).image_set.all()
+		return iList
+
+
+###
+
+class Image(models.Model):
+	title = models.CharField(max_length=250)
+	file_path = models.CharField(max_length=300, unique=True)
+	comment = models.CharField(max_length=200, blank=True, null=True)
+	shows = models.ManyToManyField(Show)
+	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
+	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
+	last_updated_by = models.CharField(max_length=20)
+
+	class Meta:
+		db_table = '"image"'
+		ordering = ['created_date']
+
+	def __str__(self):
+		return self.title
+	
+###
+
+class Video(models.Model):
+	title = models.CharField(max_length=250)
+	file_path = models.CharField(max_length=300, unique=True)
+	comment = models.CharField(max_length=200, blank=True, null=True)
+	shows = models.ManyToManyField(Show)
+	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
+	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
+	last_updated_by = models.CharField(max_length=20)
+
+	class Meta:
+		db_table = '"video"'
+		ordering = ['created_date']
+
+	def __str__(self):
+		return self.title
+
+###
+
+		
 
 

@@ -18,14 +18,14 @@
                 <section>
 		<header>
 
-		{% if video_title %}
-			<h2>{{ video_title }}</h2>
+		{% if content.title %}
+			<h2>{{ content.title }}</h2>
 		{% endif %}
 
 		</header>
 		<p>
 		<video controls autoplay playinline>
-  		<source src="{{ video_url}}" type="video/mp4">
+  		<source src="/media/{{ content.file_path}}" type="video/mp4">
 		</video>
 
 
