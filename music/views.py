@@ -114,11 +114,21 @@ def songPage(request, song_id):
 
 ###
 
-def playlistPage(request, playlist_file):
+def playlistPage(request, playlist_slug):
 
-	playlist_title = re.sub('_', ' ', playlist_file)
+	playlist_file = playlist_title = file_path = None
 
-	file_path = playlist_file + ".m3u"
+	# allow for lookup of playlists by ID or filename
+	try:
+		p = Playlist.objects.get(id=playlist_slug)
+		playlist_title = p.title
+		file_path = p.file_path
+		playlist_file = re.sub(' ', '_', playlist_title)
+	except:
+		playlist_title = re.sub('_', ' ', playlist_slug)
+		file_path = playlist_slug + ".m3u"
+		playlist_file = playlist_slug
+
 	playlist_files = getPlaylistSongs(playlist_file)
 
 	playlist_songs = list()
@@ -134,10 +144,10 @@ def playlistPage(request, playlist_file):
 		column_names = [col[0] for col in desc]
 		sList = [dict(zip(column_names, row)) for row in cur.fetchall()]
 		for sl in sList:
-			#sl['song_name'] = re.sub('\]', '', sl['song_name'])
-			#sl['song_name'] = re.sub('\[', '', sl['song_name'])
-			#sl['full_name'] = re.sub('\]', '', sl['full_name'])
-			#sl['full_name'] = re.sub('\[', '', sl['full_name'])
+			sl['song_name'] = re.sub('\]', '', sl['song_name'])
+			sl['song_name'] = re.sub('\[', '', sl['song_name'])
+			sl['full_name'] = re.sub('\]', '', sl['full_name'])
+			sl['full_name'] = re.sub('\[', '', sl['full_name'])
 			sl['cover_url'] = returnCoverUrl(sl['song_id'], useDefault=True)
 			playlist_songs.append(sl)
 
@@ -209,6 +219,7 @@ def videoPage(request, video_slug):
 
 	v = None
 
+	# allow for lookup of videos by ID or filename
 	try:
 		v = Video.objects.get(id=video_slug)
 	except:

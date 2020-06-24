@@ -48,7 +48,7 @@ urlpatterns = [
 	# /music/livesets/
 
 	# Playlist Page
-	path('mixtape/<slug:playlist_file>/', views.playlistPage, name='playlistPage'),
+	path('mixtape/<slug:playlist_slug>/', views.playlistPage, name='playlistPage'),
 	# /music/mixtape/Kind_Jim/
 
 	# Video Page

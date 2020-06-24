@@ -1,0 +1,6 @@
+		{% if playlist_songs %}
+                        {% for ps in playlist_songs %}
+					{{ps.full_name}} - {{ps.song_name}}<br>
+			{% endfor %}
+		{% endif %}
+

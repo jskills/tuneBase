@@ -29,7 +29,7 @@ class Artist(models.Model):
 		for s in sList:
 			if s[0] is None:
 				continue
-			print("found album: " + str(s[0]))
+			#print("found album: " + str(s[0]))
 			d = dict()
 			d['album'] = str(s[0])
 			if d['album']:
@@ -169,7 +169,7 @@ class Show (models.Model):
 
 	class Meta:
 		db_table = '"show"'
-		ordering = ['show_date']
+		ordering = ['-show_date']
 
 	def __str__(self):
 		return self.title
