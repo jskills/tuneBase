@@ -34,9 +34,25 @@ def returnCoverUrl(song_id, useDefault=False):
 def getPlaylistSongs(filename):
 	read_file = musicDir + filename + ".m3u"
 
-	m3u8_obj = m3u8.load(read_file)
+	returnList = list()
 
-	return m3u8_obj.files
+	try:
+		m3u8_obj = m3u8.load(read_file)
+		returnList = m3u8_obj.files
+	except:
+		f = open(read_file, encoding='utf-8')
+		plText = f.readlines()
+		f.close()
+		i = 0
+		while(i < len(plText)):
+			if plText[i][0] == "#":
+				i+= 1
+				continue
+			else:
+				returnList.append(plText[i])
+			i+= 1
+
+	return returnList
 
 ###
 
@@ -199,6 +215,7 @@ def videoIndex(request):
 		# get filename - everything after the trailing slash
 		d['url'] = v.rsplit('/', 1)[-1]
 		d['url'] = re.sub('.mp4', '', d['url'])
+		d['url'] = re.sub(' ', '_', d['url'])
 		d['name'] = d['url']
 		d['name'] = re.sub('_', ' ', d['name'])
 		d['name'] = d['name'].title()
