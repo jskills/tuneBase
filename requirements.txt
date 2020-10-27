@@ -15,7 +15,7 @@ ConfigArgParse==0.11.0
 configobj==5.0.6
 configparser==5.0.0
 cover-grabber==1.2.1
-cryptography==2.33
+cryptography==3.2
 cupshelpers==1.0
 daemonize==2.5.0
 dataclasses==0.7
