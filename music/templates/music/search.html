@@ -46,7 +46,7 @@
 			<h3><b>Songs<b></h3>
 			<ul>
 			{% for s in song_list %}
-				 <li><a href="/music/song/{{s.id}}/">{{s.song_name}}</a></li>
+				 <li><a href="/music/song/{{s.id}}/">{{s.song_name}}</a> by <a href="/music/artist/{{s.artist_id}}/">{{s.artist_name}}</a></li>
 			{% endfor %}
 			</ul>
 			<p></p>

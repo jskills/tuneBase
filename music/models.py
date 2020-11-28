@@ -103,12 +103,17 @@ class Song(models.Model):
 	def __str__(self):
 		return self.song_name
 
+	@property
+	def artist_name(self):
+		return Artist.objects.get(id__exact=self.artist_id)
+
 	def multiSearch(self, searchText):
 		returnDict = dict()
 		songList = albumList = artistList = plList = list()
 
 		# get any song, artist, album or playlist with the search term present
 		songList = Song.objects.filter(song_name__icontains=searchText)
+                #songArtistList = Artist.objects.filter(song_set__in=songList)
 		returnDict['songList'] = songList
 		aList = list()
 		albumList = Song.objects.filter(album__icontains=searchText).distinct()
@@ -117,7 +122,8 @@ class Song(models.Model):
 			d['album'] = al.album
 			d['artist_id'] = al.artist_id
 			d['album_url'] = re.sub(' ', '_', d['album'])
-			aList.append(d)
+			if d not in aList:
+				aList.append(d)
 		returnDict['albumList'] = aList
 		artistList = Artist.objects.filter(full_name__icontains=searchText)
 		returnDict['artistList'] = artistList
