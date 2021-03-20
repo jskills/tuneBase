@@ -46,7 +46,7 @@ httplib2==0.18.0
 idna==2.6
 iso8601==0.1.12
 itsdangerous==0.24
-Jinja2==2.10.1
+Jinja2==2.11.3
 josepy==1.1.0
 keyring==10.6.0
 keyrings.alt==3.0
