@@ -229,6 +229,23 @@ class Video(models.Model):
 
 ###
 
-		
+class YTMSong(models.Model):
+	videoId = models.CharField(max_length=200, unique=True)
+	entityId = = models.CharField(max_length=200, unique=True)
+        title = models.CharField(max_length=250)
+        artist_name = models.CharField(max_length=250)
+	artist_id = models.CharField(max_length=250, blank=True, null=True)
+        album_name = models.CharField(max_length=250, blank=True, null=True)
+        album_id = models.CharField(max_length=250, blank=True, null=True)
+        duration = CharField(max_length=250, blank=True, null=True)
+        created_date = models.DateTimeField(auto_now_add=True, db_index=True)
+        last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
+        last_updated_by = models.CharField(max_length=20)
 
+        class Meta:
+                db_table = '"ytm_song"'
+                ordering = ['title']
+
+        def __str__(self):
+                return self.title
 
