@@ -230,8 +230,8 @@ class Video(models.Model):
 ###
 
 class YTMSong(models.Model):
-	videoId = models.CharField(max_length=200, unique=True)
-	entityId = models.CharField(max_length=200, unique=True)
+	video_id = models.CharField(max_length=200, unique=True)
+	entity_id = models.CharField(max_length=200, unique=True)
 	title = models.CharField(max_length=250)
 	artist_name = models.CharField(max_length=250)
 	artist_id = models.CharField(max_length=250, blank=True, null=True)
