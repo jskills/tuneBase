@@ -81,6 +81,28 @@ class Genre(models.Model):
 	
 ###
 
+class YTMSong(models.Model):
+	video_id = models.CharField(max_length=200, unique=True)
+	entity_id = models.CharField(max_length=200, unique=True)
+	title = models.CharField(max_length=250)
+	artist_name = models.CharField(max_length=250)
+	artist_id = models.CharField(max_length=250, blank=True, null=True)
+	album_name = models.CharField(max_length=250, blank=True, null=True)
+	album_id = models.CharField(max_length=250, blank=True, null=True)
+	duration = models.CharField(max_length=250, blank=True, null=True)
+	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
+	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
+	last_updated_by = models.CharField(max_length=20)
+
+	class Meta:
+		db_table = '"ytm_song"'
+		ordering = ['title']
+
+	def __str__(self):
+		return self.title
+
+###
+
 class Song(models.Model):
 	song_name = models.CharField(max_length=250)
 	artist = models.ForeignKey(Artist, on_delete=models.PROTECT)
@@ -92,6 +114,7 @@ class Song(models.Model):
 	comment = models.CharField(max_length=200, blank=True, null=True)
 	duration =  models.IntegerField(blank=True, null=True)
 	bit_rate = models.CharField(max_length=20, blank=True, null=True)	
+	ytm = models.ForeignKey(YTMSong, on_delete=models.PROTECT, null=True)
 	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
 	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
 	last_updated_by = models.CharField(max_length=20)
@@ -228,24 +251,3 @@ class Video(models.Model):
 		return self.title
 
 ###
-
-class YTMSong(models.Model):
-	video_id = models.CharField(max_length=200, unique=True)
-	entity_id = models.CharField(max_length=200, unique=True)
-	title = models.CharField(max_length=250)
-	artist_name = models.CharField(max_length=250)
-	artist_id = models.CharField(max_length=250, blank=True, null=True)
-	album_name = models.CharField(max_length=250, blank=True, null=True)
-	album_id = models.CharField(max_length=250, blank=True, null=True)
-	duration = models.CharField(max_length=250, blank=True, null=True)
-	created_date = models.DateTimeField(auto_now_add=True, db_index=True)
-	last_updated_date = models.DateTimeField(auto_now=True, db_index=True)
-	last_updated_by = models.CharField(max_length=20)
-
-	class Meta:
-		db_table = '"ytm_song"'
-		ordering = ['title']
-
-	def __str__(self):
-		return self.title
-
