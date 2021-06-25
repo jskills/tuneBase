@@ -92,15 +92,19 @@ def artistPage(request, artist_id):
 def albumPage(request, artist_id, album):
 	a = Artist.objects.get(id=artist_id)
 
+	sList = list()
+	cover_url = None
+
 	album_name = re.sub('_', ' ', album)
 
-	sList = a.getAlbumSongs(artist_id, album_name)
-
-	cover_url = None
-	for s in sList:
-		cover_url = returnCoverUrl(s['id'])
-		if cover_url:
-			break
+	if album_name == 'NO ALBUM':
+		sList = a.getAlbumlessSongs(artist_id)
+	else:
+		sList = a.getAlbumSongs(artist_id, album_name)
+		for s in sList:
+			cover_url = returnCoverUrl(s['id'])
+			if cover_url:
+				break
 
 	templateData = {
 		'song_list': sList,

@@ -22,16 +22,17 @@ class Artist(models.Model):
 
 	def getUniqueAlbums(self, id):
 		cur = connection.cursor()
-		sql = "select distinct(INITCAP(album)) as album from song where artist_id = %s"
+		sql = "select distinct(album) as album from song where artist_id = %s"
+		sql += " order by 1"
 		cur.execute(sql, [id])
 		sList = cur.fetchall()
 		aList = list()
 		for s in sList:
-			if s[0] is None:
-				continue
-			#print("found album: " + str(s[0]))
 			d = dict()
-			d['album'] = str(s[0])
+			if s[0] is None or s[0] == '':
+				d['album'] = 'NO ALBUM'
+			else:
+				d['album'] = str(s[0]).title()
 			if d['album']:
 				d['album_url'] = re.sub(' ', '_', d['album'])
 			aList.append(d)
@@ -51,6 +52,18 @@ class Artist(models.Model):
 		connection.close()	
 
 		return sList
+
+	def getAlbumlessSongs(self, id,):
+		cur = connection.cursor()
+		sql = "select * from song where artist_id = %s and (album is NULL or album = '')"
+		sql += " order by song_name"
+		cur.execute(sql, [id])
+		desc = cur.description
+		column_names = [col[0] for col in desc]
+		sList = [dict(zip(column_names, row)) for row in cur.fetchall()]
+		connection.close()
+
+		return sList 
 
 ###
 
