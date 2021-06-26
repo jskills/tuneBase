@@ -5,14 +5,30 @@ import m3u8
 import glob
 import re
 import os
-
-
-
-
+from configparser import ConfigParser
 
 from .models import Genre, Artist, Song, Playlist, Show, Video, Image
 
-musicDir = "/media/jskills/Toshiba-2TB/"
+###
+
+def config(filename, section):
+        filename = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/music/' + filename
+        parser = ConfigParser()
+        parser.read(filename)
+
+        conf = {}
+        if parser.has_section(section):
+                params = parser.items(section)
+                for param in params:
+                        conf[param[0]] = param[1]
+        else:
+                raise Exception('Section {0} not found in the {1} file'.format(section, filename))
+        return conf
+
+###
+
+params = config('music.ini', 'music')
+musicDir = params['dir']
 coverImageDir = musicDir + "cover_art/"
 
 ###

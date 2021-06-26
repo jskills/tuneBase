@@ -133,3 +133,7 @@ dmypy.json
 
 #vim .swp files
 .swp
+
+#  config file
+music.ini
+
