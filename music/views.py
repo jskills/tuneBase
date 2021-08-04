@@ -5,6 +5,7 @@ import m3u8
 import glob
 import re
 import os
+from datetime import datetime, timezone
 from configparser import ConfigParser
 
 from .models import Genre, Artist, Song, Playlist, Show, Video, Image
@@ -205,6 +206,9 @@ def playlistIndex(request):
 
 	for p in plList:
 		d = dict()
+		# get file attributes
+		stat = os.stat(p)
+		d['date'] = datetime.fromtimestamp(stat.st_mtime)
 		# get filename - everything after the trailing slash
 		d['url'] = p.rsplit('/', 1)[-1]
 		d['url'] = re.sub('.m3u', '', d['url'])
@@ -317,6 +321,8 @@ def showIndex(request):
 		d = dict()
 		d['name'] = s.title
 		d['url'] = s.id
+		d['date'] = s.show_date
+		d['location'] = s.location
 		sList.append(d)
 
 	templateData = {

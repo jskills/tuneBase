@@ -22,11 +22,26 @@
 		<p>
 
 		{% if contentList %}
-    			<ul>
+    			<table>
     			{% for cl in contentList %}
-        			<li><a href="/music/{{slug}}/{{ cl.url }}">{{ cl.name }}</a></li>
+				<tr>
+				<td>
+				{% if cl.date %}
+					{{cl.date}}
+				{% endif %}
+				</td>
+				<td>
+        			<a href="/music/{{slug}}/{{ cl.url }}">{{ cl.name }}</a></li>
+				</td>
+				<td>
+                                {% if cl.location %}
+                                        {{cl.location}}
+                                {% endif %}
+
+				</td>
+				</tr>
     			{% endfor %}
-    			</ul>
+    			</table>
 		{% else %}
 			No {{ section_name }}s found.
 		{% endif %}		
