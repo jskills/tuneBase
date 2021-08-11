@@ -5,6 +5,7 @@ import m3u8
 import glob
 import re
 import os
+import urllib.parse
 from datetime import datetime, timezone
 from configparser import ConfigParser
 
@@ -117,7 +118,8 @@ def albumPage(request, artist_id, album):
 	if album_name == 'NO ALBUM':
 		sList = a.getAlbumlessSongs(artist_id)
 	else:
-		sList = a.getAlbumSongs(artist_id, album_name)
+		album_lookup = urllib.parse.unquote(album_name)
+		sList = a.getAlbumSongs(artist_id, album_lookup)
 		for s in sList:
 			cover_url = returnCoverUrl(s['id'])
 			if cover_url:

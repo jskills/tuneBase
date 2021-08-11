@@ -20,7 +20,7 @@ urlpatterns = [
 	# /music/artist/1
 
 	# Album Page
-	path('album/<int:artist_id>/<slug:album>/', views.albumPage, name='albumPage'),
+	path('album/<int:artist_id>/<str:album>/', views.albumPage, name='albumPage'),
 	# /music/album/1/Dirt/
 
 	# Song Page

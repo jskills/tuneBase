@@ -2,6 +2,8 @@ import datetime
 import re
 from django.db import connection
 from django.db import models
+import urllib.parse
+
 
 
 
@@ -35,6 +37,7 @@ class Artist(models.Model):
 				d['album'] = str(s[0]).title()
 			if d['album']:
 				d['album_url'] = re.sub(' ', '_', d['album'])
+				d['album_url'] = urllib.parse.quote(d['album_url'])
 			aList.append(d)
 
 		connection.close()
@@ -158,6 +161,7 @@ class Song(models.Model):
 			d['album'] = al.album
 			d['artist_id'] = al.artist_id
 			d['album_url'] = re.sub(' ', '_', d['album'])
+			d['album_url'] = urllib.parse.quote(d['album_url'])
 			if d not in aList:
 				aList.append(d)
 		returnDict['albumList'] = aList
