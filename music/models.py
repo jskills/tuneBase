@@ -211,7 +211,6 @@ class Playlist(models.Model):
         #    just update the file itself and the last_updated fields on the record
 
         file_path = settings.MUSIC_DIR + file_path
-        print("file : ", file_path)
         f = open(file_path, 'w')
         f.write('#EXTM3U\n')
         for s in song_list:
