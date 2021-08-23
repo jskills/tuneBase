@@ -139,6 +139,9 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MUSIC_DIR = get_secret('MUSIC_DIR')
+ARTWORK_DIR = get_secret('ARTWORK_DIR')
+SERVER_EMAIL = get_secret('SERVER_EMAIL')
 
 #
 LOGGING = {

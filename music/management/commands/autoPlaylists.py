@@ -5,12 +5,8 @@ from music.models import Playlist
 
 #######################
 
-# set locally 
-musicDir = "/media/jskills/Toshiba-2TB/"
-coverImageDir = musicDir + "cover_art/"
-
 class Command(BaseCommand):
     help = 'Automatically create playlists'
 
     def handle(self, *args, **options):
-        Playlist.autolatest()
+        p = Playlist.auto_latest()

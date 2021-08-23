@@ -14,7 +14,7 @@ from .models import Genre, Artist, Song, Playlist, Show, Video, Image
 ###
 
 def config(filename, section):
-        filename = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/music/' + filename
+        filename = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/' + section + '/' + filename
         parser = ConfigParser()
         parser.read(filename)
 
