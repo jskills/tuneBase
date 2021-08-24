@@ -214,7 +214,7 @@ class Playlist(models.Model):
         f = open(file_path, 'w')
         f.write('#EXTM3U\n')
         for s in song_list:
-            duration = s.duration if s.duration else '240'
+            duration = str(s.duration) if s.duration else '240'
             line = str('#EXTINF:'+ duration + ', ' + s.artist.full_name + ' - ' + s.song_name +'\n')
             f.write(line)
             f.write(s.file_path + '\n')
