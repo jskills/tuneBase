@@ -5,9 +5,7 @@ from django.db import models
 from django.conf import settings
 import urllib.parse
 
-
-# Create models here
-
+###
 
 class Artist(models.Model):
     full_name = models.CharField(max_length=200, unique=True)
@@ -183,7 +181,6 @@ class Song(models.Model):
     def get_latest(limit_num=50):
         latest_songs = Song.objects.order_by('-created_date')[:limit_num:1]
         return latest_songs
-    
 
 ###
 
