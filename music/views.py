@@ -171,10 +171,11 @@ def playlistPage(request, playlist_slug):
     playlist_files = getPlaylistSongs(playlist_file)
 
     playlist_songs = list()
-    hourlySongs = list()
-    hourlyDict = dict()
+    hourlySongs = [0] * (len(playlist_files) + 20)
+    hourlyDict = list()
     genreDict = dict()
     totalSongs = totalSecs = minCnt = hrsCnt = 0
+    totalTime = genreBreakdown = ''
 
 
     for file_path in playlist_files:
@@ -202,21 +203,39 @@ def playlistPage(request, playlist_slug):
             if minCnt >= 60:
                 minCnt = 0
                 hrsCnt += 1
-                hourlySongs.append('<b>Hour ' + str(hrsCnt) + '</b><br>')
-                for l in hourlyDict:
-                    hourlySongs[hrsCnt] += sl['song_name'] + ' by ' + sl['full_name']
-                    if sl['year']:
-                        hourlySongs[hrsCnt] += ' ' + sl['year']
-                    hourlySongs[hrsCnt] += '<br>'
-                hourlyDict = dict()
+                #hourlySongs[hrsCnt] += '<b>Hour ' + str(hrsCnt) + '</b><br>'
+                #for l in hourlyDict:
+                    #hourlySongs[hrsCnt] += l['song_name'] + ' by ' + l['full_name']
+                    #if l['year']:
+                    #    hourlySongs[hrsCnt] += ' ' + l['year']
+                    #hourlySongs[hrsCnt] += '<br>'
+                hourlyDict = list()
+            else:
+                hourlyDict.append(sl)
             # TODO
             # need to add hourlyDict to some data structure outside this loop
             
             playlist_songs.append(sl)
 
+        totalTime = 0
+        totalTime = str(hrsCnt) + ' hours ' + str(int((totalSecs/3600)-int((totalSecs/3600))) * 60) + ' minutes'
+        for g in genreDict:
+            gpct = int(((genreDict[g]/totalSecs) * 100))
+            if not gpct:
+                genreBreakdown += str(g) + ' : ' + str(gpct) + '%'
+
+
+
+            
+
+            
+
     templateData = {
         'playlist_title': playlist_title,
-        'playlist_songs': playlist_songs
+        'playlist_songs': playlist_songs,
+        'hourly_songs': hourlySongs,
+        'genre_breakdown': genreBreakdown,
+        'total_time': totalTime
     }
 
     return render(request, 'music/playlist.html', templateData)

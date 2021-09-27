@@ -30,6 +30,12 @@
 
                 </section>
 		<p>
+        {% if hourly_songs %}
+        {{ hourly_songs }}
+        {{ genre_breakdown }}
+        {{ total_time }}
+        {% endif %}
+        <p>
 		{% include "./songlist.html" with playlist_songs=playlist_songs %}
                 </div>
                 </div>
