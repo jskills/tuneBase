@@ -58,7 +58,7 @@ def getPlaylistSongs(filename):
         m3u8_obj = m3u8.load(read_file)
         returnList = m3u8_obj.files
     except:
-        f = open(read_file, encoding='utf-8')
+        f = open(read_file, encoding='utf-8', errors='ignore')
         plText = f.readlines()
         f.close()
         i = 0
@@ -172,17 +172,20 @@ def playlistPage(request, playlist_slug):
 
     playlist_songs = list()
     hourlySongs = [0] * (len(playlist_files) + 20)
-    hourlyDict = list()
+    hourlyList = list()
     genreDict = dict()
-    totalSongs = totalSecs = minCnt = hrsCnt = 0
-    totalTime = genreBreakdown = ''
+    totalSongs = totalSecs = minCnt = 0
+    hrsCnt = 1
+    totalTime = ''
+    genreBreakdown = list()
 
 
     for file_path in playlist_files:
         file_path = re.sub('\\\\', '/', file_path)
         cur = connection.cursor()
-        sql = "select s.id as song_id, full_name, song_name, file_path, duration, genre_id from song s, artist a"
-        sql += " where file_path = %s and s.artist_id = a.id"
+        sql = "select s.id as song_id, full_name, song_name, file_path, duration, genre_name "
+        sql += " from song s, artist a, genre g"
+        sql += " where file_path = %s and s.artist_id = a.id and s.genre_id = g.id"
         cur.execute(sql, [file_path])
         desc = cur.description
         column_names = [col[0] for col in desc]
@@ -193,40 +196,33 @@ def playlistPage(request, playlist_slug):
             sl['full_name'] = re.sub('\]', '', sl['full_name'])
             sl['full_name'] = re.sub('\[', '', sl['full_name'])
             sl['cover_url'] = returnCoverUrl(sl['song_id'], useDefault=True)
+
             totalSongs += 1
             totalSecs += sl['duration']
-            if sl['genre_id'] in genreDict:
-                genreDict[sl['genre_id']] += sl['duration']
+
+            if sl['genre_name'] in genreDict:
+                genreDict[sl['genre_name']] += sl['duration']
             else:
-                genreDict[sl['genre_id']] = sl['duration']
+                genreDict[sl['genre_name']] = sl['duration']
+
             minCnt +=  sl['duration']/60
             if minCnt >= 60:
                 minCnt = 0
                 hrsCnt += 1
-                #hourlySongs[hrsCnt] += '<b>Hour ' + str(hrsCnt) + '</b><br>'
-                #for l in hourlyDict:
-                    #hourlySongs[hrsCnt] += l['song_name'] + ' by ' + l['full_name']
-                    #if l['year']:
-                    #    hourlySongs[hrsCnt] += ' ' + l['year']
-                    #hourlySongs[hrsCnt] += '<br>'
-                hourlyDict = list()
+                hourlySongs[hrsCnt] = hourlyList
+                hourlyList = list()
             else:
-                hourlyDict.append(sl)
-            # TODO
-            # need to add hourlyDict to some data structure outside this loop
+                hourlyList.append(sl)
             
             playlist_songs.append(sl)
 
-        totalTime = 0
-        totalTime = str(hrsCnt) + ' hours ' + str(int((totalSecs/3600)-int((totalSecs/3600))) * 60) + ' minutes'
-        for g in genreDict:
-            gpct = int(((genreDict[g]/totalSecs) * 100))
-            if not gpct:
-                genreBreakdown += str(g) + ' : ' + str(gpct) + '%'
 
-
-
-            
+    totalTime = 0
+    calc_mins = ((totalSecs/3600) - hrsCnt) * 60
+    totalTime = str(hrsCnt) + ' hours ' + str(int(calc_mins)) + ' minutes'
+    for g in genreDict:
+        gpct = round((genreDict[g]/totalSecs) * 100, 1)
+        genreBreakdown.append(str(g) + ' : ' + str(gpct) + '%')
 
             
 

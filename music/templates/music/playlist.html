@@ -31,12 +31,32 @@
                 </section>
 		<p>
         {% if hourly_songs %}
-        {{ hourly_songs }}
-        {{ genre_breakdown }}
-        {{ total_time }}
+        <br>
+        <b>Total time :</b> {{ total_time }}<p>
+        <b>Genre Breakdown:</b><br>
+        {% for g in genre_breakdown %}
+            {{ g }} <br>
+        {% endfor %}
+        <p>
+        {% for hs in hourly_songs %}
+            {% if hs %}
+                <b>Hour  : {{ forloop.counter0|add:"-1"}}</b> <br>
+                {% for h in hs %}
+                    {{h.song_name}} by {{h.full_name}}<br>
+                {% endfor %}
+                <p>
+            {% endif %}
+        {% endfor %}
+        <br>
         {% endif %}
         <p>
+
+
+        <!-- plaintext playlist song listing 
+
 		{% include "./songlist.html" with playlist_songs=playlist_songs %}
+
+        --> 
                 </div>
                 </div>
 
