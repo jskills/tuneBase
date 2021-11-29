@@ -9,6 +9,7 @@ import urllib.parse
 from datetime import datetime, timezone
 from configparser import ConfigParser
 
+# app based library includes
 from .models import Genre, Artist, Song, Playlist, Show, Video, Image
 
 ###
@@ -29,6 +30,7 @@ def config(filename, section):
 
 ###
 
+# globals - should refactor this
 params = config('music.ini', 'music')
 musicDir = params['dir']
 coverImageDir = musicDir + "cover_art/"
