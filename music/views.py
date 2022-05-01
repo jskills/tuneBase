@@ -218,6 +218,11 @@ def playlistPage(request, playlist_slug):
             
             playlist_songs.append(sl)
 
+    # add final hour
+    hrsCnt += 1
+    hourlySongs[hrsCnt] = hourlyList
+    
+
 
     totalTime = 0
     calc_mins = ((totalSecs/3600) - hrsCnt) * 60
@@ -263,7 +268,7 @@ def playlistIndex(request):
     templateData = {
         'contentList': playlists,
         'sectionName': 'Play Lists',
-        'slug': 'mixtape'   
+        'slug': 'miyLxtape'   
     }
 
     return render(request, 'music/section.html', templateData)
