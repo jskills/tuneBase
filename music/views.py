@@ -268,7 +268,7 @@ def playlistIndex(request):
     templateData = {
         'contentList': playlists,
         'sectionName': 'Play Lists',
-        'slug': 'miyLxtape'   
+        'slug': 'mixtape'   
     }
 
     return render(request, 'music/section.html', templateData)
