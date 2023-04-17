@@ -32,7 +32,9 @@
 						images: {
 							'/static/music/images/bg01.jpg': 'center',
 							'/static/music/images/bg02.jpg': 'center',
-							'/static/music/images/bg03.jpg': 'center'
+							'/static/music/images/bg03.jpg': 'center',
+                            '/static/music/images/bg04.jpg': 'center',
+                            '/static/music/images/bg05.jpg': 'center'
 						},
 
 					// Delay.
