@@ -225,8 +225,10 @@ def playlistPage(request, playlist_slug):
 
 
     totalTime = 0
-    calc_mins = ((totalSecs/3600) - hrsCnt) * 60
-    totalTime = str(hrsCnt) + ' hours ' + str(int(calc_mins)) + ' minutes'
+    hrsCnt = totalSecs // 3600  # Get total hours
+    calc_mins = (totalSecs % 3600) // 60  # Get remaining minutes after hours
+    totalTime = f"{hrsCnt} hours {calc_mins} minutes"
+
     for g in genreDict:
         gpct = round((genreDict[g]/totalSecs) * 100, 1)
         genreBreakdown.append(str(g) + ' : ' + str(gpct) + '%')
