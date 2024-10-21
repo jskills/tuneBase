@@ -10,7 +10,7 @@
 				{% autoescape off %}
 				{
 					title:"{{ps.full_name}} - {{ps.song_name}}",
-					mp3:"/media/{{ps.file_path}}",
+					mp3:"/media/{{ps.file_path|urlencode}}",
 					{% if ps.cover_url %}
 					poster:"/media/cover_art/{{ps.cover_url}}"
 					{% endif %}

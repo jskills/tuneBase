@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['.jskills.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['.jskills.com','.mortko.com', '127.0.0.1', 'localhost']
 
 with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
     secrets = json.load(secrets_file)

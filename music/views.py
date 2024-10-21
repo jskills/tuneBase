@@ -57,22 +57,30 @@ def getPlaylistSongs(filename):
     returnList = list()
 
     try:
+        # Attempt to load using m3u8 library
         m3u8_obj = m3u8.load(read_file)
         returnList = m3u8_obj.files
-    except:
-        f = open(read_file, encoding='utf-8', errors='ignore')
-        plText = f.readlines()
-        f.close()
-        i = 0
-        while(i < len(plText)):
-            if plText[i][0] == "#":
-                i+= 1
-                continue
-            else:
-                returnList.append(plText[i])
-            i+= 1
+    except Exception as e:
+        # Log the exception for debugging
+        print(f"Error loading playlist with m3u8: {e}")
+        
+        # Fallback to manual file reading with encoding handling
+        try:
+            with open(read_file, encoding='utf-8', errors='replace') as f:
+                plText = f.readlines()
+
+            for line in plText:
+                line = line.strip()  # Remove extra whitespace/newlines
+                if line and not line.startswith("#"):  # Ignore comments and empty lines
+                    returnList.append(line)
+
+        except UnicodeDecodeError as ude:
+            print(f"Unicode error reading file {filename}: {ude}")
+        except Exception as e:
+            print(f"General error reading file {filename}: {e}")
 
     return returnList
+
 
 ###
 
@@ -236,6 +244,7 @@ def playlistPage(request, playlist_slug):
             
 
     templateData = {
+        'raw_data': sList,
         'playlist_title': playlist_title,
         'playlist_songs': playlist_songs,
         'hourly_songs': hourlySongs,
