@@ -25,7 +25,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['.jskills.com', '.mortko.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['.jskills.com', 'www.jskills.com', '.mortko.com', '127.0.0.1', 'localhost', '72.68.211.88']
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
 
 with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
     secrets = json.load(secrets_file)
@@ -159,3 +167,5 @@ LOGGING = {
         },
     },
 }
+
+ACME_CHALLENGE_DIR = os.path.join(BASE_DIR, ".well-known/acme-challenge")
