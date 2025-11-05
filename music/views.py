@@ -206,6 +206,8 @@ def playlistPage(request, playlist_slug):
             sl['full_name'] = re.sub('\]', '', sl['full_name'])
             sl['full_name'] = re.sub('\[', '', sl['full_name'])
             sl['cover_url'] = returnCoverUrl(sl['song_id'], useDefault=True)
+            sl['song_name'] = sl['song_name'].replace('"', '\\"')
+            sl['full_name'] = sl['full_name'].replace('"', '\\"')
 
             totalSongs += 1
             totalSecs += sl['duration']
