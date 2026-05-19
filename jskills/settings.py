@@ -169,3 +169,7 @@ LOGGING = {
 }
 
 ACME_CHALLENGE_DIR = os.path.join(BASE_DIR, ".well-known/acme-challenge")
+
+# for the proxied requests
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
